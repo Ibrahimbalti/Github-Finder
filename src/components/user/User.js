@@ -1,40 +1,51 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Spinner } from '../layout/Spinner';
 import Useritems from './Useritems';
+import PropTypes from 'prop-types';
 
-export class User extends Component {
-  //   state = {
-  //     users: [
-  //       {
-  //         id: '1',
-  //         login: 'mojombo',
-  //         avatar_url: 'https://avatars.githubusercontent.com/u/1?v=4',
-  //         html_url: 'https://github.com/mojombo',
-  //       },
-  //       {
-  //         id: '2',
-  //         login: 'defunkt',
-  //         avatar_url: 'https://avatars.githubusercontent.com/u/2?v=4',
-  //         html_url: 'https://github.com/defunkt',
-  //       },
+// export class User extends Component {
+//   state = {
+//     users: [
+//       {
+//         id: '1',
+//         login: 'mojombo',
+//         avatar_url: 'https://avatars.githubusercontent.com/u/1?v=4',
+//         html_url: 'https://github.com/mojombo',
+//       },
+//       {
+//         id: '2',
+//         login: 'defunkt',
+//         avatar_url: 'https://avatars.githubusercontent.com/u/2?v=4',
+//         html_url: 'https://github.com/defunkt',
+//       },
 
-  //       {
-  //         id: '3',
-  //         login: 'pjhyett',
-  //         avatar_url: 'https://avatars.githubusercontent.com/u/3?v=4',
-  //         html_url: 'https://github.com/pjhyett',
-  //       },
-  //     ],
-  //   };
-  render() {
+//       {
+//         id: '3',
+//         login: 'pjhyett',
+//         avatar_url: 'https://avatars.githubusercontent.com/u/3?v=4',
+//         html_url: 'https://github.com/pjhyett',
+//       },
+//     ],
+//   };
+
+const User = ({ users, loading }) => {
+  if (loading) {
+    return <Spinner />;
+  } else {
     return (
       <div style={userStyle}>
-        {this.props.users.map((user) => (
+        {users.map((user) => (
           <Useritems key={user.id} user={user} />
         ))}
       </div>
     );
   }
-}
+};
+
+User.prototype = {
+  users: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired,
+};
 
 const userStyle = {
   display: 'grid',
