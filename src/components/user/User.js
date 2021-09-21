@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Spinner } from '../layout/Spinner';
 import Useritems from './Useritems';
 import PropTypes from 'prop-types';
+import GithubContext from '../../context/github/githubContext';
 
 // export class User extends Component {
 //   state = {
@@ -28,7 +29,8 @@ import PropTypes from 'prop-types';
 //     ],
 //   };
 
-const User = ({ users, loading }) => {
+const User = () => {
+  const { users, loading } = useContext(GithubContext);
   if (loading) {
     return <Spinner />;
   } else {

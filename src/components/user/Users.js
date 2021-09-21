@@ -101,13 +101,16 @@
 
 // ....................Refactoring class base component to function components.....................
 
-import React, { useEffect, Fragment } from 'react';
+import React, { useEffect, Fragment, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Spinner } from '../layout/Spinner';
 import { Link } from 'react-router-dom';
 import { Repos } from '../repos/Repos';
+import GithubContext from '../../context/github/githubContext';
 
-const Users = ({ loading, repos, getUser, user, getUserRepos, match }) => {
+const Users = ({ loading, repos, getUserRepos, match }) => {
+  const { user, getUser } = useContext(GithubContext);
+
   useEffect(() => {
     getUser(match.params.login);
     getUserRepos(match.params.login);
@@ -190,8 +193,6 @@ const Users = ({ loading, repos, getUser, user, getUserRepos, match }) => {
 };
 
 Users.propTypes = {
-  getUser: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
   repos: PropTypes.array.isRequired,
   getUserRepos: PropTypes.func.isRequired,

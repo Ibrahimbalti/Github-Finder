@@ -145,27 +145,16 @@ const App = () => {
     setTimeout(() => setAlert(null), 5000);
   };
 
-  // ...............Get all user data from Github API..................
+  // // ...............Get all user data from Github API..................
 
-  const searchUser = async (text) => {
-    setloading(true);
-    const res = await axios.get(
-      `https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID} & client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
-    );
-    setUsers(res.data.items);
-    setloading(false);
-  };
-
-  // ...............Get individual user data from Github API and  this function call from userItem components..................
-
-  const getUser = async (username) => {
-    setloading(true);
-    const res = await axios.get(
-      `https://api.github.com/users/${username} ? client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID} & client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
-    );
-    setUser(res.data);
-    setloading(false);
-  };
+  // const searchUser = async (text) => {
+  //   setloading(true);
+  //   const res = await axios.get(
+  //     `https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID} & client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+  //   );
+  //   setUsers(res.data.items);
+  //   setloading(false);
+  // };
 
   // .......This repos called from the users.js component and display the latest Github repos of user..................
   const getUserRepos = async (username) => {
@@ -174,10 +163,6 @@ const App = () => {
       `https://api.github.com/users/${username}/repos?per_page=5&sort=created:ascclient_id=${process.env.REACT_APP_GITHUB_CLIENT_ID} & client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
     );
     setRepos(res.data);
-    setloading(false);
-  };
-  const clearUsers = () => {
-    setUsers([]);
     setloading(false);
   };
 
@@ -196,13 +181,8 @@ const App = () => {
                 path="/"
                 render={(props) => (
                   <Fragment>
-                    <Search
-                      searchUser={searchUser}
-                      clearUsers={clearUsers}
-                      showClears={users.length > 0 ? true : false}
-                      setAlert={displayAlert}
-                    />
-                    <User loading={loading} users={users} />
+                    <Search setAlert={displayAlert} />
+                    <User />
                   </Fragment>
                 )}
               ></Route>
@@ -217,8 +197,6 @@ const App = () => {
                 render={(props) => (
                   <Users
                     {...props}
-                    getUser={getUser}
-                    user={user}
                     getUserRepos={getUserRepos}
                     repos={repos}
                     loading={loading}
