@@ -59,10 +59,12 @@
 // ....................Refactoring class base component to function components.....................
 
 import React, { useState, useContext } from 'react';
-import PropTypes from 'prop-types';
 import GithubContext from '../../context/github/githubContext';
-const Search = ({ showClears, setAlert }) => {
+import AlertContext from '../../context/alert/alertContext';
+const Search = () => {
   const githubContext = useContext(GithubContext);
+  const alertContext = useContext(AlertContext);
+
   const [text, setText] = useState('');
 
   const onchange = (e) => setText(e.target.value);
@@ -70,7 +72,7 @@ const Search = ({ showClears, setAlert }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     if (text === '') {
-      setAlert('Please Enter a user name', 'light');
+      alertContext.setAlert('Please Enter a user name', 'light');
     } else {
       githubContext.searchUser(text);
       setText('');
@@ -106,7 +108,4 @@ const Search = ({ showClears, setAlert }) => {
   );
 };
 
-Search.propTypes = {
-  setAlert: PropTypes.func.isRequired,
-};
 export default Search;

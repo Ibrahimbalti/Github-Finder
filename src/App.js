@@ -121,29 +121,30 @@
 // export default App;
 
 // ....................Refactoring class base component to function components.....................
-import axios from 'axios';
-import React, { useState, Fragment } from 'react';
+// import axios from 'axios';
+import React from 'react';
 import './App.css';
 import { Alert } from './components/layout/Alert';
 import Navbar from './components/layout/Navbar';
-import Search from './components/user/Search';
-import User from './components/user/User';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { About } from './components/page/About';
 import Users from './components/user/Users';
 import GithubState from './context/github/GithubState';
+import AlertState from './context/alert/AlertState';
+import { Home } from './components/page/Home';
+import { Notfound } from './components/page/Notfound';
 
 const App = () => {
-  const [users, setUsers] = useState([]);
-  const [user, setUser] = useState({});
-  const [alert, setAlert] = useState(null);
-  const [repos, setRepos] = useState([]);
-  const [loading, setloading] = useState(false);
+  // const [users, setUsers] = useState([]);
+  // const [user, setUser] = useState({});
+  // const [alert, setAlert] = useState(null);
+  // const [repos, setRepos] = useState([]);
+  // const [loading, setloading] = useState(false);
 
-  const displayAlert = (msg, type) => {
-    setAlert({ msg, type });
-    setTimeout(() => setAlert(null), 5000);
-  };
+  // const displayAlert = (msg, type) => {
+  //   setAlert({ msg, type });
+  //   setTimeout(() => setAlert(null), 5000);
+  // };
 
   // // ...............Get all user data from Github API..................
 
@@ -156,57 +157,41 @@ const App = () => {
   //   setloading(false);
   // };
 
-  // .......This repos called from the users.js component and display the latest Github repos of user..................
-  const getUserRepos = async (username) => {
-    setloading(true);
-    const res = await axios.get(
-      `https://api.github.com/users/${username}/repos?per_page=5&sort=created:ascclient_id=${process.env.REACT_APP_GITHUB_CLIENT_ID} & client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
-    );
-    setRepos(res.data);
-    setloading(false);
-  };
+  // // .......This repos called from the users.js component and display the latest Github repos of user..................
+  // const getUserRepos = async (username) => {
+  //   setloading(true);
+  //   const res = await axios.get(
+  //     `https://api.github.com/users/${username}/repos?per_page=5&sort=created:ascclient_id=${process.env.REACT_APP_GITHUB_CLIENT_ID} & client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+  //   );
+  //   setRepos(res.data);
+  //   setloading(false);
+  // };
 
   return (
     <GithubState>
-      <Router>
-        <div className="App">
-          <Navbar />
+      <AlertState>
+        <Router>
+          <div className="App">
+            <Navbar />
 
-          <div className="container">
-            <Alert alert={alert} />
-            <Switch>
-              {/* // ..........Home routers.............. */}
-              <Route
-                exact
-                path="/"
-                render={(props) => (
-                  <Fragment>
-                    <Search setAlert={displayAlert} />
-                    <User />
-                  </Fragment>
-                )}
-              ></Route>
+            <div className="container">
+              <Alert />
+              <Switch>
+                {/* // ..........Home routers.............. */}
+                <Route exact path="/" component={Home}></Route>
 
-              {/* // ..........About routers.............. */}
-              <Route exact path="/about" component={About} />
+                {/* // ..........About routers.............. */}
+                <Route exact path="/about" component={About} />
 
-              {/* // ..........About routers.............. */}
-              <Route
-                exact
-                path="/user/:login"
-                render={(props) => (
-                  <Users
-                    {...props}
-                    getUserRepos={getUserRepos}
-                    repos={repos}
-                    loading={loading}
-                  />
-                )}
-              />
-            </Switch>
+                {/* // ..........About routers.............. */}
+                <Route exact path="/user/:login" component={Users} />
+                {/* // ..........Notfound routers.............. */}
+                <Route component={Notfound} />
+              </Switch>
+            </div>
           </div>
-        </div>
-      </Router>
+        </Router>
+      </AlertState>
     </GithubState>
   );
 };

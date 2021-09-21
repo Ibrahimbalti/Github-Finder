@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Spinner } from '../layout/Spinner';
 import Useritems from './Useritems';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import GithubContext from '../../context/github/githubContext';
 
 // export class User extends Component {
@@ -44,10 +44,10 @@ const User = () => {
   }
 };
 
-User.prototype = {
-  users: PropTypes.array.isRequired,
-  loading: PropTypes.bool.isRequired,
-};
+// User.prototype = {
+//   users: PropTypes.array.isRequired,
+//   loading: PropTypes.bool.isRequired,
+// };
 
 const userStyle = {
   display: 'grid',

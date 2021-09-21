@@ -101,15 +101,111 @@
 
 // ....................Refactoring class base component to function components.....................
 
-import React, { useEffect, Fragment, useContext } from 'react';
-import PropTypes from 'prop-types';
+// import React, { useEffect, Fragment, useContext } from 'react';
+// import { Spinner } from '../layout/Spinner';
+// import { Link } from 'react-router-dom';
+// import { Repos } from '../repos/Repos';
+// import GithubContext from '../../context/github/githubContext';
+
+// const Users = ({ match }) => {
+//   // const { user, getUser, repos, loading, getUserRepos } =
+//   //   useContext(GithubContext);
+//   const githubContext = useContext(GithubContext);
+//   const { getUser, user, loading, getUserRepos, repos } = githubContext;
+
+//   useEffect(() => {
+//     getUser(match.params.login);
+//     getUserRepos(match.params.login);
+//     // eslint-disable-next-line
+//   }, []);
+
+//   const {
+//     name,
+//     company,
+//     avatar_url,
+//     location,
+//     bio,
+//     blog,
+//     login,
+//     html_url,
+//     followers,
+//     following,
+//     public_repos,
+//     public_gist,
+//     heriable,
+//   } = user;
+//   if (loading) return <Spinner />;
+//   return (
+//     <Fragment>
+//       <Link to="/" className="btn btn-light">
+//         Black To Search Result
+//       </Link>
+//       Hireable :{' '}
+//       {heriable ? (
+//         <i className="fas fa-check text-success"></i>
+//       ) : (
+//         <i className="fas fa-times-circle text-danger"></i>
+//       )}
+//       <div className="card grid-2">
+//         <div className="all-center">
+//           <img
+//             src={avatar_url}
+//             alt="Profile Github"
+//             className="round-img"
+//             style={{ width: '150px' }}
+//           />
+//           <h3>{name}</h3>
+//           {location && (
+//             <Fragment>
+//               <h5>Location:{location}</h5>
+//             </Fragment>
+//           )}
+//         </div>
+
+//         <div>
+//           {bio && (
+//             <Fragment>
+//               <h3>Bio</h3>
+//               <p>{bio}</p>
+//             </Fragment>
+//           )}
+
+//           <a href={html_url} className="btn btn-dark my-1">
+//             Github Profile
+//           </a>
+
+//           <ul>
+//             <li>{login && <Fragment>Username:{login}</Fragment>}</li>
+
+//             <li>{company && <Fragment>company:{company}</Fragment>}</li>
+
+//             <li>{blog && <Fragment>website:{blog}</Fragment>}</li>
+//           </ul>
+//         </div>
+//       </div>
+//       <div className="card text-center">
+//         <div className="badge badge-primary">Followers :{followers}</div>
+//         <div className="badge badge-success">Following :{following}</div>
+//         <div className="badge badge-light">Public Repos:{public_repos}</div>
+//         <div className="badge badge-dark">Public_Gists:{public_gist}</div>
+//       </div>
+//       <Repos repos={repos} />
+//     </Fragment>
+//   );
+// };
+
+// export default Users;
+
+import React, { Fragment, useEffect, useContext } from 'react';
 import { Spinner } from '../layout/Spinner';
-import { Link } from 'react-router-dom';
 import { Repos } from '../repos/Repos';
+import { Link } from 'react-router-dom';
 import GithubContext from '../../context/github/githubContext';
 
-const Users = ({ loading, repos, getUserRepos, match }) => {
-  const { user, getUser } = useContext(GithubContext);
+const Users = ({ match }) => {
+  const githubContext = useContext(GithubContext);
+
+  const { getUser, user, loading, getUserRepos, repos } = githubContext;
 
   useEffect(() => {
     getUser(match.params.login);
@@ -129,17 +225,19 @@ const Users = ({ loading, repos, getUserRepos, match }) => {
     followers,
     following,
     public_repos,
-    public_gist,
-    heriable,
+    public_gists,
+    hireable,
   } = user;
+
   if (loading) return <Spinner />;
+
   return (
     <Fragment>
       <Link to="/" className="btn btn-light">
-        Black To Search Result
+        Back to Search Results
       </Link>
-      Hireable :{' '}
-      {heriable ? (
+      Hireable:{' '}
+      {hireable ? (
         <i className="fas fa-check text-success"></i>
       ) : (
         <i className="fas fa-times-circle text-danger"></i>
@@ -148,18 +246,17 @@ const Users = ({ loading, repos, getUserRepos, match }) => {
         <div className="all-center">
           <img
             src={avatar_url}
-            alt="Profile Github"
+            alt="Profile"
             className="round-img"
             style={{ width: '150px' }}
           />
-          <h3>{name}</h3>
+          <h2>{name}</h2>
           {location && (
             <Fragment>
-              <h5>Location:{location}</h5>
+              <h5>Location: {location}</h5>
             </Fragment>
           )}
         </div>
-
         <div>
           {bio && (
             <Fragment>
@@ -167,35 +264,30 @@ const Users = ({ loading, repos, getUserRepos, match }) => {
               <p>{bio}</p>
             </Fragment>
           )}
-
-          <a href={html_url} className="btn btn-dark my-1">
-            Github Profile
+          <a
+            href={html_url}
+            className="btn btn-dark my-1"
+            target="_blank"
+            rel="noreferrer"
+          >
+            GitHub Profile
           </a>
-
           <ul>
-            <li>{login && <Fragment>Username:{login}</Fragment>}</li>
-
-            <li>{company && <Fragment>company:{company}</Fragment>}</li>
-
-            <li>{blog && <Fragment>website:{blog}</Fragment>}</li>
+            <li>{login && <Fragment>Username: {login}</Fragment>}</li>
+            <li>{company && <Fragment>Company: {company}</Fragment>}</li>
+            <li>{blog && <Fragment>Website: {blog}</Fragment>}</li>
           </ul>
         </div>
       </div>
       <div className="card text-center">
-        <div className="badge badge-primary">Followers :{followers}</div>
-        <div className="badge badge-success">Following :{following}</div>
-        <div className="badge badge-light">Public Repos:{public_repos}</div>
-        <div className="badge badge-dark">Public_Gists:{public_gist}</div>
+        <div className="badge badge-primary">Followers: {followers}</div>
+        <div className="badge badge-success">Following: {following}</div>
+        <div className="badge badge-light">Public Repos: {public_repos}</div>
+        <div className="badge badge-dark">Public Gists: {public_gists}</div>
       </div>
       <Repos repos={repos} />
     </Fragment>
   );
-};
-
-Users.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  repos: PropTypes.array.isRequired,
-  getUserRepos: PropTypes.func.isRequired,
 };
 
 export default Users;

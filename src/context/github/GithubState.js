@@ -45,6 +45,18 @@ const GithubState = (props) => {
     });
   };
 
+  // .......This repos called from the users.js component and display the latest Github repos of user..................
+  const getUserRepos = async (username) => {
+    setloading();
+    const res = await axios.get(
+      `https://api.github.com/users/${username}/repos?per_page=5&sort=created:ascclient_id=${process.env.REACT_APP_GITHUB_CLIENT_ID} & client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+    );
+    dispatch({
+      type: GET_REPOS,
+      payload: res.data,
+    });
+  };
+
   // ......Set Loading...........
   const setloading = () => dispatch({ type: SET_LOADING });
 
@@ -60,6 +72,7 @@ const GithubState = (props) => {
         searchUser,
         getUser,
         clearUsers,
+        getUserRepos,
       }}
     >
       {props.children}
